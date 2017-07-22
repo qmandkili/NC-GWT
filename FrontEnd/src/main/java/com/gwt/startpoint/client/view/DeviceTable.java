@@ -2,6 +2,8 @@ package com.gwt.startpoint.client.view;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -32,6 +34,7 @@ public class DeviceTable extends Composite {
 	// Так как раньше это было в классе StartPoint, а сейчас получается везде
 	private final WorkerClient client = GWT.create(WorkerClient.class);
 
+	@Inject
 	public DeviceTable(final EventBus bus) {
 		bus.addHandler(UpdateEvent.TYPE, new UpdateEventHandler() {
 			@Override

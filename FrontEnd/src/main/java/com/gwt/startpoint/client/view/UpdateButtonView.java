@@ -1,14 +1,17 @@
 package com.gwt.startpoint.client.view;
 
+import javax.inject.Inject;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.Button;
 import com.gwt.startpoint.client.event.UpdateEvent;
 
 public class UpdateButtonView extends Button {
 
-	public UpdateButtonView(final SimpleEventBus eventBus) {
+	@Inject
+	public UpdateButtonView(final EventBus eventBus) {
 		setText("Update table");
 
 		addClickHandler(new ClickHandler() {

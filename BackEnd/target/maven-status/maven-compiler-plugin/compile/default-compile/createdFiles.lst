@@ -1,0 +1,4 @@
+com\rest\Initializer.class
+com\rest\server\DBWorker.class
+com\rest\EntryPoint.class
+com\rest\server\RestExample.class

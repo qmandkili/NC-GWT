@@ -4,6 +4,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
@@ -14,13 +15,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwt.startpoint.client.view.DeviceTable;
 import com.gwt.startpoint.client.view.UpdateButtonView;
-import com.model.shared.Device;
 
-import java.util.List;
 
 import org.fusesource.restygwt.client.Defaults;
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.MethodCallback;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>
@@ -36,7 +33,9 @@ public class StartPoint implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		
-		SimpleEventBus eventBus = new SimpleEventBus();
+		//EventBus eventBus = new SimpleEventBus();
+		
+		final Injector injector = Injector.INSTANCE;
 
 
 		// Это очень грязная фигня Она задает рутовую дирректорию для рест
@@ -57,7 +56,7 @@ public class StartPoint implements EntryPoint {
 		
 		horizontalPanel.add(addButton);
 		horizontalPanel.add(getButton);
-		horizontalPanel.add(new UpdateButtonView(eventBus));
+		horizontalPanel.add(new UpdateButtonView(injector.getEventBus()));
 		horizontalPanel.setVisible(true);
 		
 		Button closeGudButton = new Button("Close");
@@ -134,7 +133,7 @@ public class StartPoint implements EntryPoint {
 			}
 		});	*/	
 		
-		RootPanel.get().add(new DeviceTable(eventBus));
+		RootPanel.get().add(new DeviceTable(injector.getEventBus()));
 		
 		//RootPanel.get().add(table);
 
