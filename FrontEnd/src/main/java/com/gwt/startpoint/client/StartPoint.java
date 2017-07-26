@@ -13,9 +13,10 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.gwt.startpoint.client.view.AddButtonView;
+import com.gwt.startpoint.client.view.AddDialogBoxView;
 import com.gwt.startpoint.client.view.DeviceTable;
 import com.gwt.startpoint.client.view.UpdateButtonView;
-
 
 import org.fusesource.restygwt.client.Defaults;
 
@@ -24,10 +25,9 @@ import org.fusesource.restygwt.client.Defaults;
  */
 public class StartPoint implements EntryPoint {
 
-	private final WorkerClient client = GWT.create(WorkerClient.class);
+	//private final WorkerClient client = GWT.create(WorkerClient.class);
 
 	private static final String HELLO_MESSAGE = "Hi, I'm your gwt application!";
-
 	/**
 	 * This is the entry point method.
 	 */
@@ -46,7 +46,7 @@ public class StartPoint implements EntryPoint {
 		
 		GudDialogBox gudDialogBox = new GudDialogBox();
 		
-		AddDialogBox addBox = new AddDialogBox();
+		AddDialogBoxView addBox = new AddDialogBoxView(injector.getEventBus());
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		
@@ -73,6 +73,7 @@ public class StartPoint implements EntryPoint {
 		
 		VerticalPanel addTextPanel = new VerticalPanel();
 		addTextPanel.add(addBox);
+		addTextPanel.add(new AddButtonView(injector.getEventBus()));
 		addTextPanel.add(closeAddButton);
 		addTextPanel.setVisible(true);
 		
@@ -116,32 +117,13 @@ public class StartPoint implements EntryPoint {
 				getDialogBox.hide();
 			}
 		});
-		
-		/*updateTableButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				client.getAll(new MethodCallback<List<Device>>() {
-					@Override
-					public void onFailure(Method method, Throwable exception) {
-						// TODO Auto-generated method stub
-						Window.alert(exception.toString() + "\n" + exception.getMessage());
-					}
-					@Override
-					public void onSuccess(Method method, List<Device> response) {						
-						deviceTable.updateRows(response);
-					}
-				});
-			}
-		});	*/	
-		
+				
 		RootPanel.get().add(new DeviceTable(injector.getEventBus()));
-		
-		//RootPanel.get().add(table);
 
 		RootPanel.get().add(horizontalPanel);
 
 		final Label label = new Label(HELLO_MESSAGE);
 		RootPanel.get().add(label);
-
 		final Button button = new Button("Click me");
 		button.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {

@@ -26,7 +26,7 @@ public interface WorkerClient extends RestService {
 	
 	@POST
 	@Path("/device/create")
-	void post(Device device, MethodCallback<String> callback);
+	void post(Device device, MethodCallback<String > callback);
 	
 	@GET
 	@Path("/device/get/{id}")

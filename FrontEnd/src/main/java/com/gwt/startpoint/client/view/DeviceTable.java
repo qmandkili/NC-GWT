@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwt.startpoint.client.WorkerClient;
 import com.gwt.startpoint.client.event.UpdateEvent;
 import com.gwt.startpoint.client.event.UpdateEventHandler;
+import com.gwt.startpoint.client.presenter.DeviceTableManagerImpl;
 import com.model.shared.Device;
 
 public class DeviceTable extends Composite {
@@ -26,20 +27,36 @@ public class DeviceTable extends Composite {
 	}
 
 	private static DeviceTableUiBinder uiBinder = GWT.create(DeviceTableUiBinder.class);
+	
+	private EventBus bus;
 
 	@UiField(provided = true)
 	FlexTable table;
 
 	// Есть вопрос к тому как сделать так, чтобы не создавать это поле в каждом объекте UiBinder`a
 	// Так как раньше это было в классе StartPoint, а сейчас получается везде
-	private final WorkerClient client = GWT.create(WorkerClient.class);
-
+	//@Inject
+	private WorkerClient client = GWT.create(WorkerClient.class);
+	
+	//@Inject
+	private DeviceTableManagerImpl manager;
+	
+	
 	@Inject
 	public DeviceTable(final EventBus bus) {
+		manager = new DeviceTableManagerImpl(bus);
+		this.bus = bus;
+		setActions();
+		setupTable();
+		initWidget(uiBinder.createAndBindUi(this));
+	}
+	
+	public void setActions() {
 		bus.addHandler(UpdateEvent.TYPE, new UpdateEventHandler() {
 			@Override
 			public void update(UpdateEvent event) {
-				client.getAll(new MethodCallback<List<Device>>() {
+				updateRows(manager.getDevices());
+					/*client.getAll(new MethodCallback<List<Device>>() {
 
 					@Override
 					public void onSuccess(Method method, List<Device> response) {
@@ -50,11 +67,9 @@ public class DeviceTable extends Composite {
 					public void onFailure(Method method, Throwable exception) {
 						Window.alert(exception.toString());
 					}
-				});
+				});*/
 			}
 		});
-		setupTable();
-		initWidget(uiBinder.createAndBindUi(this));
 	}
 
 	public void setupTable() {

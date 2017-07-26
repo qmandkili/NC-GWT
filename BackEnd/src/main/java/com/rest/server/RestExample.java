@@ -3,6 +3,8 @@ package com.rest.server;
 import java.math.BigInteger;
 import java.util.List;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,33 +21,35 @@ public class RestExample {
 	
 	@RequestMapping(value = "/device/create", method = RequestMethod.POST)
 	public String addDevice(@RequestBody Device device) {
-		DBWorker dbWorker = new DBWorker();
-		dbWorker.addDevice(device);
+		ApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        PgManagerImpl pg = (PgManagerImpl)context.getBean("OracleDB");
+		PgManagerImpl dbWorker = new PgManagerImpl();
+		pg.addDevice(device);
 		return HttpStatus.OK.toString();
 	}
 	
 	@RequestMapping(value = "/device/get/{id}", method = RequestMethod.GET)
 	public Device getDevice(@PathVariable("id") BigInteger id) {
-		DBWorker dbWorker = new DBWorker();
+		PgManagerImpl dbWorker = new PgManagerImpl();
 		return dbWorker.getDevice(id);		
 	}
 	
 	@RequestMapping(value = "/device/get", method = RequestMethod.GET)
 	public List<Device> getAllDevices() {
-		DBWorker dbWorker = new DBWorker();
+		PgManagerImpl dbWorker = new PgManagerImpl();
 		return dbWorker.getAllDevices();
 	}
 	
 	@RequestMapping(value = "/device/delete", method = RequestMethod.DELETE)
 	public String deleteDevice(@RequestBody BigInteger id) {
-		DBWorker dbWorker = new DBWorker();
+		PgManagerImpl dbWorker = new PgManagerImpl();
 		dbWorker.deleteDevice(id);
 		return HttpStatus.OK.toString();
 	}
 	
 	@RequestMapping(value = "/device/update", method = RequestMethod.PUT)
 	public String updateDevice(@RequestBody Device device) {
-		DBWorker dbWorker = new DBWorker();
+		PgManagerImpl dbWorker = new PgManagerImpl();
 		dbWorker.updateDevice(device);
 		return HttpStatus.OK.toString();
 	}
